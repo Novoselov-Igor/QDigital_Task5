@@ -61,7 +61,7 @@ if (!checkAuth()) {
                 ?>
                 <div class="d-flex justify-content-between border-top border-secondary-subtle p-2 mt-2">
                     <div>
-                        <p class="fs-3"><?= $value['description'] ?></p>
+                        <p class="fs-3"><?php echo htmlspecialchars($value['description']) ?></p>
                         <div class="d-flex">
                             <form method="post" action="controller/taskReadinessController.php">
                                 <input hidden name="userId">

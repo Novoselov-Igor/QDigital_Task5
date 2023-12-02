@@ -11,6 +11,6 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
 
-    <title>Авторизация</title>
+    <title>TaskList</title>
 </head>
-<body class="d-flex h-100 align-items-center py-4 bg-light-subtle">
+<body style="height: 100%">

@@ -1,6 +1,6 @@
 <?php
 require 'layouts/doctype.php';
-require_once 'controller/checkAuth.php';
+require_once 'controller/checkAuthController.php';
 
 if (checkAuth()) {
     header('Location: /');
@@ -8,8 +8,8 @@ if (checkAuth()) {
 }
 ?>
 
-<div class="col-lg-4 m-auto">
-    <form action="controller/checkUser.php" method="post">
+<div class="d-flex h-100 align-items-center py-4 bg-light-subtle col-lg-4 m-auto">
+    <form action="controller/checkUserController.php" method="post">
         <h1 class="text-center h3 mb-3 fw-normal">Авторизация/Регистрация</h1>
 
         <div class="form-floating mb-1">

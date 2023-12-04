@@ -1,21 +1,17 @@
 <?php
-require 'layouts/doctype.php';
-require_once 'controller/checkAuthController.php';
+require 'doctype.php';
+require 'functions/checkAuth.php';
 
-if (!checkAuth()) {
-    header('Location: authentication.php');
-    die;
-} else {
-    $pdo = require_once 'config/connect.php';
+$pdo = require_once 'config/connect.php';
 
-    $user = $pdo->prepare("SELECT * FROM users WHERE `id` = :id");
-    $user->execute(['id' => $_COOKIE['userId']]);
-    $user = $user->fetch(PDO::FETCH_ASSOC);
+$user = $pdo->prepare("SELECT * FROM users WHERE `id` = :id");
+$user->execute(['id' => $_COOKIE['userId']]);
+$user = $user->fetch(PDO::FETCH_ASSOC);
 
-    $task = $pdo->prepare("SELECT * FROM tasks WHERE user_id = :userId");
-    $task->execute(['userId' => $user['id']]);
-    $task = $task->fetchAll();
-}
+$task = $pdo->prepare("SELECT * FROM tasks WHERE user_id = :userId");
+$task->execute(['userId' => $user['id']]);
+$task = $task->fetchAll();
+
 ?>
 
 <div class="shadow">
@@ -27,7 +23,7 @@ if (!checkAuth()) {
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="#" class="nav-link" aria-current="page">
                     <?php echo htmlspecialchars($user['login']) ?></a></li>
-            <form method="post" action="controller/logoutController.php">
+            <form method="post" action="functions/logout.php">
                 <button type="submit" class="btn btn-primary">Выйти</button>
             </form>
         </ul>
@@ -36,21 +32,18 @@ if (!checkAuth()) {
 <div class="container col-lg-5 d-flex flex-column">
     <h4 class="text-center">Task list</h4>
     <div class="mt-3">
-        <form method="post" action="controller/taskAdditionController.php" class="d-flex justify-content-between">
+        <form method="post" action="functions/taskAddition.php" class="d-flex justify-content-between">
             <div class="col-lg-8">
-                <input hidden name="userId" value="<?= $user['id'] ?>">
                 <input name="task" type="text" placeholder="Enter text..." class="form-control col-lg-3 p-2">
             </div>
             <button type="submit" class="btn btn-dark mx-2">Add Task</button>
         </form>
         <div class="d-flex mt-2">
-            <form method="post" action="controller/taskRemovalController.php">
-                <input hidden name="taskId">
-                <button class="btn btn-danger" name="userId" value="<?= $user['id'] ?>">Remove All</button>
+            <form method="post" action="functions/taskRemoval.php">
+                <button class="btn btn-danger">Remove All</button>
             </form>
-            <form method="post" action="controller/taskReadinessController.php">
-                <input hidden name="taskId">
-                <button class="btn btn-success mx-3" name="userId" value="<?= $user['id'] ?>">Ready All</button>
+            <form method="post" action="functions/taskReadiness.php">
+                <button class="btn btn-success mx-3">Ready All</button>
             </form>
         </div>
     </div>
@@ -63,8 +56,7 @@ if (!checkAuth()) {
                     <div>
                         <p class="fs-3"><?php echo htmlspecialchars($value['description']) ?></p>
                         <div class="d-flex">
-                            <form method="post" action="controller/taskReadinessController.php">
-                                <input hidden name="userId">
+                            <form method="post" action="functions/taskReadiness.php">
                                 <button class="btn border border-secondary" name="taskId" value="<?= $value['id'] ?>">
                                     <?php
                                     if (!$value['status']) {
@@ -75,8 +67,7 @@ if (!checkAuth()) {
                                     ?>
                                 </button>
                             </form>
-                            <form method="post" action="controller/taskRemovalController.php" class="mx-2">
-                                <input hidden name="userId">
+                            <form method="post" action="functions/taskRemoval.php" class="mx-2">
                                 <button class="btn border border-secondary" name="taskId" value="<?= $value['id'] ?>">
                                     Delete
                                 </button>
